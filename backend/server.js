@@ -7,6 +7,9 @@ import Neighborhood from './models/Neighborhood.js';
 
 dotenv.config();
 
+
+
+
 const app = express();
 const PORT = 5000;
 
@@ -78,6 +81,16 @@ app.get('/neighborhoods', async (req, res) => {
 });
 
 // Start server
+// Temporary route to delete all neighborhoods — development only
+// app.delete('/neighborhoods/delete-all', async (req, res) => {
+//   try {
+//     await Neighborhood.deleteMany({});
+//     res.json({ message: "✅ All neighborhoods deleted successfully." });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

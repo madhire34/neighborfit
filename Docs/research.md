@@ -10,3 +10,4 @@ Many individuals struggle to find neighborhoods that align with their lifestyle 
 ## User Survey
 
 [Click here to take the NeighborFit Lifestyle Survey](https://docs.google.com/forms/d/e/1FAIpQLScIO9Mn9XRdSVtvX2xQzSf-ohMTISHdd82hspxpsaVYY7Pd1A/viewform?usp=header)
+
