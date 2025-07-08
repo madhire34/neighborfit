@@ -7,11 +7,8 @@ import Neighborhood from './models/Neighborhood.js';
 
 dotenv.config();
 
-
-
-
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000; // Safer for deployment environments
 
 // Middleware
 app.use(cors());
@@ -24,7 +21,6 @@ mongoose.connect(process.env.MONGO_URI)
 
 // API routes
 
-// Add new neighborhood
 // Match user preferences with best neighborhood
 app.post('/match', async (req, res) => {
   try {
@@ -60,6 +56,7 @@ app.post('/match', async (req, res) => {
   }
 });
 
+// Add new neighborhood
 app.post('/neighborhoods', async (req, res) => {
   try {
     const neighborhood = new Neighborhood(req.body);
@@ -80,17 +77,12 @@ app.get('/neighborhoods', async (req, res) => {
   }
 });
 
-// Start server
-// Temporary route to delete all neighborhoods — development only
-// app.delete('/neighborhoods/delete-all', async (req, res) => {
-//   try {
-//     await Neighborhood.deleteMany({});
-//     res.json({ message: "✅ All neighborhoods deleted successfully." });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+// ✅ Root route for Render deployment (fixes "Cannot GET /")
+app.get('/', (req, res) => {
+  res.send('✅ NeighborFit API is running!');
+});
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
