@@ -15,7 +15,7 @@ const MatchResults = ({ match }) => {
           <p>Nightlife: {match.match.nightlife}/10</p>
           <p>Rent: ₹{match.match.rent}/month</p>
         </div>
-        <p>Match Score: {match.score}%</p>
+        <p>Match Score: {parseFloat(match.score).toFixed(1)}%</p>
       </div>
     </div>
   );

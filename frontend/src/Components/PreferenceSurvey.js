@@ -9,6 +9,7 @@ const PreferenceSurvey = ({ onMatchFound }) => {
     nightlife: 5,
     budget: 20000
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -24,6 +25,7 @@ const PreferenceSurvey = ({ onMatchFound }) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+
     try {
       const result = await matchNeighborhood(preferences);
       onMatchFound(result);
@@ -43,15 +45,32 @@ const PreferenceSurvey = ({ onMatchFound }) => {
         {Object.entries(preferences).map(([key, value]) => (
           <div key={key} className="survey-input">
             <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
-            <input
-              type="range"
-              name={key}
-              min="1"
-              max="10"
-              value={value}
-              onChange={handleChange}
-            />
-            <span>{value}</span>
+            {key !== 'budget' ? (
+              <>
+                <input
+                  type="range"
+                  name={key}
+                  min="1"
+                  max="10"
+                  value={value}
+                  onChange={handleChange}
+                />
+                <span>{value}</span>
+              </>
+            ) : (
+              <>
+                <input
+                  type="range"
+                  name="budget"
+                  min="10000"
+                  max="40000"
+                  step="1000"
+                  value={value}
+                  onChange={handleChange}
+                />
+                <span>₹{value}</span>
+              </>
+            )}
           </div>
         ))}
         <button type="submit" disabled={isLoading}>

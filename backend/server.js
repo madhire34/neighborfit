@@ -1,4 +1,3 @@
-// backend/server.js
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -8,18 +7,14 @@ import Neighborhood from './models/Neighborhood.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Safer for deployment environments
+const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
-
-// API routes
 
 // Match user preferences with best neighborhood
 app.post('/match', async (req, res) => {
@@ -33,11 +28,13 @@ app.post('/match', async (req, res) => {
     neighborhoods.forEach(nb => {
       const score =
         100 -
-        (Math.abs(nb.safety - user.safety) +
-         Math.abs(nb.walkability - user.walkability) +
-         Math.abs(nb.schools - user.schools) +
-         Math.abs(nb.nightlife - user.nightlife) +
-         Math.abs(nb.rent - user.budget) / 100);
+        (
+          Math.abs(nb.safety - user.safety) * 2 +
+          Math.abs(nb.walkability - user.walkability) * 1.5 +
+          Math.abs(nb.schools - user.schools) * 1.5 +
+          Math.abs(nb.nightlife - user.nightlife) * 1.2 +
+          Math.abs(nb.rent - user.budget) / 1000
+        );
 
       if (score > highestScore) {
         highestScore = score;
@@ -46,7 +43,7 @@ app.post('/match', async (req, res) => {
     });
 
     if (bestMatch) {
-      res.json({ match: bestMatch, score: highestScore.toFixed(2) });
+      res.json({ match: bestMatch, score: highestScore.toFixed(1) });
     } else {
       res.status(404).json({ error: 'No neighborhoods available to match.' });
     }
@@ -77,12 +74,11 @@ app.get('/neighborhoods', async (req, res) => {
   }
 });
 
-// ✅ Root route for Render deployment (fixes "Cannot GET /")
+// Root route for Render deployment
 app.get('/', (req, res) => {
   res.send('✅ NeighborFit API is running!');
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
