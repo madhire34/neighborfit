@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Replace with your actual backend URL
-const API_URL = 'http://localhost:5000'; 
+// ✅ Use the deployed backend URL
+const API_URL = 'https://neighborfit-cwx9.onrender.com';
 
 export const fetchNeighborhoods = async () => {
   try {
